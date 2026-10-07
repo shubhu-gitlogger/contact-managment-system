@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: contact-management-backend
+
+  # ==========================================
+  # DATABASE
+  # ==========================================
+  datasource:
+    url: "jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=true&requireSSL=true&serverTimezone=UTC"
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # ==========================================
+  # JPA / HIBERNATE
+  # ==========================================
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+# ==========================================
+# JWT
+# ==========================================
+jwt:
+  secret: ${JWT_SECRET}
+
+# ==========================================
+# SERVER
+# ==========================================
+server:
+  port: "${PORT:8080}"
