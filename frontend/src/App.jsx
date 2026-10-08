@@ -4,55 +4,78 @@ import {
     Route
 } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Contact from "./pages/Contact";
-import AdminDashboard from "./pages/AdminDashboard";
-import EnquiryDetails from "./pages/EnquiryDetails";
-import AdminLogin from "./pages/AdminLogin";
+import { lazy, Suspense } from "react";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
-function App() {
+// Keep login/contact lightweight and load them immediately
+import AdminLogin from "./pages/AdminLogin";
+import Contact from "./pages/Contact";
 
+// Lazy load admin pages
+const AdminDashboard = lazy(
+    () => import("./pages/AdminDashboard")
+);
+
+const EnquiryDetails = lazy(
+    () => import("./pages/EnquiryDetails")
+);
+
+function PageLoader() {
     return (
+        <div
+            style={{
+                minHeight: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+            }}
+        >
+            Loading...
+        </div>
+    );
+}
 
+function App() {
+    return (
         <BrowserRouter>
+            <Suspense fallback={<PageLoader />}>
+                <Routes>
 
-            <Routes>
-
-                {/* Login */}
-                <Route
-                    path="/"
-                    element={<AdminLogin />}
-                />
-
-                <Route
-                    path="/admin/login"
-                    element={<AdminLogin />}
-                />
-
-                {/* Public contact page */}
-                <Route
-                    path="/contact"
-                    element={<Contact />}
-                />
-
-                {/* Protected admin routes */}
-                <Route element={<ProtectedRoute />}>
-
+                    {/* Login */}
                     <Route
-                        path="/admin"
-                        element={<AdminDashboard />}
+                        path="/"
+                        element={<AdminLogin />}
                     />
 
                     <Route
-                        path="/admin/enquiries/:id"
-                        element={<EnquiryDetails />}
+                        path="/admin/login"
+                        element={<AdminLogin />}
                     />
 
-                </Route>
+                    {/* Public contact page */}
+                    <Route
+                        path="/contact"
+                        element={<Contact />}
+                    />
 
-            </Routes>
+                    {/* Protected admin routes */}
+                    <Route element={<ProtectedRoute />}>
 
+                        <Route
+                            path="/admin"
+                            element={<AdminDashboard />}
+                        />
+
+                        <Route
+                            path="/admin/enquiries/:id"
+                            element={<EnquiryDetails />}
+                        />
+
+                    </Route>
+
+                </Routes>
+            </Suspense>
         </BrowserRouter>
     );
 }
