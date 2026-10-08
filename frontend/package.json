@@ -30,7 +30,7 @@
       "nsis": {
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "Contact Management"
+    "shortcutName": "Enquiry Management"
   }
   },
   "dependencies": {
