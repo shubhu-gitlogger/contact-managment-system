@@ -45,9 +45,10 @@ public class SecurityConfig {
                 new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173",
-                        "https://contact-management-system.vercel.app")
-
+                List.of(
+                        "http://localhost:5173",
+                        "https://contact-managment-system-frontend.vercel.app"
+                )
         );
 
         configuration.setAllowedMethods(
@@ -61,7 +62,10 @@ public class SecurityConfig {
         );
 
         configuration.setAllowedHeaders(
-                List.of("*")
+                List.of(
+                        "Authorization",
+                        "Content-Type"
+                )
         );
 
         configuration.setAllowCredentials(true);
@@ -83,6 +87,8 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
+                .cors(cors -> {})
+
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .sessionManagement(session ->
@@ -93,24 +99,20 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // CORS preflight requests
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
                         ).permitAll()
 
-                        // Login
                         .requestMatchers(
                                 "/api/auth/**"
                         ).permitAll()
 
-                        // Public enquiry submission
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/enquiries"
                         ).permitAll()
 
-                        // Admin enquiry operations
                         .requestMatchers(
                                 "/api/enquiries/**"
                         ).authenticated()
@@ -122,8 +124,6 @@ public class SecurityConfig {
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 );
-
-
 
         return http.build();
     }
