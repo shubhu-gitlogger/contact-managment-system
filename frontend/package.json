@@ -26,7 +26,12 @@
     ],
     "win": {
       "target": "nsis"
-    }
+    },
+      "nsis": {
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Contact Management"
+  }
   },
   "dependencies": {
     "react": "^19.2.8",
