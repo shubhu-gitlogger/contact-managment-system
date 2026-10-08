@@ -43,10 +43,10 @@ function App() {
                 <Routes>
 
                     {/* Login */}
-                    <Route
+                    {/* <Route
                         path="/"
                         element={<AdminLogin />}
-                    />
+                    /> */}
 
                     <Route
                         path="/admin/login"
@@ -55,7 +55,7 @@ function App() {
 
                     {/* Public contact page */}
                     <Route
-                        path="/contact"
+                        path="/"
                         element={<Contact />}
                     />
 
